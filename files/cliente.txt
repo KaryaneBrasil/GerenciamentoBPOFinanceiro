@@ -1,0 +1,2 @@
+João;123.456.789-00;Rua A, 123;joao@example.com
+Maria;987.654.321-00;Rua B, 456;maria@example.com

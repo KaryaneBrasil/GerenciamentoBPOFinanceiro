@@ -1,0 +1,2 @@
+01/01/2023;João;Relatório de Caixa;Observações sobre o caixa
+02/01/2023;Maria;Relatório de Caixa;Outras observações sobre o caixa

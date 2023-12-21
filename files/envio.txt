@@ -1,0 +1,2 @@
+01/01/2023;João;Observações sobre o envio;FECHAMENTO_CAIXA
+02/01/2023;Maria;Outras observações sobre o envio;CONTAS_PAGAS

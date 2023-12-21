@@ -1,0 +1,2 @@
+01/01/2023;João;Relatório de Cofre;Observações sobre o cofre
+02/01/2023;Maria;Relatório de Cofre;Outras observações sobre o cofre
