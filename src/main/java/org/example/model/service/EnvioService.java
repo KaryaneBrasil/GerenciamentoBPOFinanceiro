@@ -1,21 +1,40 @@
 package org.example.model.service;
 
 import org.example.model.domain.Envio;
+import org.example.model.repository.EnvioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class EnvioService {
-    private static final Map<Long, Envio> enviosMap=new HashMap<>();
+
+    private final EnvioRepository envioRepository;
+
+    @Autowired
+    public EnvioService(EnvioRepository envioRepository) {
+        this.envioRepository = envioRepository;
+    }
 
     public void incluirEnvio(Envio envio) {
-        enviosMap.put(envio.getId(), envio);
+        envioRepository.save(envio);
     }
 
     public List<Envio> obterListaEnvios() {
-        return new ArrayList<>(enviosMap.values());
+        return (List<Envio>) envioRepository.findAll();
+    }
+
+    public Optional<Envio> obterEnvioPorId(Long id) {
+        return envioRepository.findById(id);
+    }
+
+    public void atualizarEnvio(Envio envio) {
+        envioRepository.save(envio);
+    }
+
+    public void excluirEnvio(Long id) {
+        envioRepository.deleteById(id);
     }
 }

@@ -1,58 +1,40 @@
 package org.example;
 
 import org.example.model.domain.Cofre;
+import org.example.model.domain.Cliente;
+import org.example.model.domain.Empresa;
+import org.example.model.service.ClienteService;
+import org.example.model.service.CofreService;
+import org.example.model.service.EmpresaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-public class CofreLoader {
+@Component
+public class CofreLoader implements CommandLineRunner {
 
-    public List<Cofre> loadCofresFromFile(String filePath) {
-        List<Cofre> cofres=new ArrayList<>();
+    private final EmpresaService empresaService;
+    private final ClienteService clienteService;
+    private final CofreService cofreService;
 
-        try (BufferedReader reader=new BufferedReader(new FileReader("files/cofre.txt"))) {
-            String line=reader.readLine();
-
-            while (line != null) {
-                String[] fields=line.split(";");
-                Cofre cofre=createCofreFromFields(fields);
-                cofres.add(cofre);
-                line=reader.readLine();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return cofres;
+    @Autowired
+    public CofreLoader(EmpresaService empresaService, ClienteService clienteService, CofreService cofreService) {
+        this.empresaService = empresaService;
+        this.clienteService = clienteService;
+        this.cofreService = cofreService;
     }
 
-    private Cofre createCofreFromFields(String[] fields) {
-        try {
-            if (fields.length < 4) {
-                throw new IllegalArgumentException("Número insuficiente de campos para criar um Cofre.");
-            }
+    @Override
+    public void run(String... args) throws Exception {
 
-            return new Cofre(parseDate(fields[0]), fields[1], fields[2], fields[3]);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+        Empresa empresa = empresaService.obterListaEmpresas().get(0);
+        Cliente cliente = clienteService.obterListaClientes().get(0);
 
-
-    private Date parseDate(String dateString) {
-        try {
-            return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
+        Cofre cofre = new Cofre(new Date(), "Responsável Cofre", "Observação Cofre", Cofre.TipoEnvio.FECHAMENTO_COFRE);
+        cofre.setCliente(cliente);
+        cofre.setEmpresa(empresa);
+        cofreService.incluirCofre(cofre);
     }
 }

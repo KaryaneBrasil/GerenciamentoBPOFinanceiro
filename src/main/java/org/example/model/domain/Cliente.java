@@ -1,17 +1,23 @@
 package org.example.model.domain;
 
-import java.util.List;
+import javax.persistence.*;
 
+@Entity
 public class Cliente {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
     private String nome;
     private String cpf;
     private String endereco;
     private String email;
-    private List<Envio> enviosCaixa;
-    private List<Envio> enviosCofre;
-    private List<Envio> enviosDocumentos;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
 
-    public Cliente() {
+
+    public Cliente(Empresa empresa) {
+        this.empresa=empresa;
     }
 
     public Cliente(String nome, String cpf, String endereco, String email) {
@@ -19,6 +25,10 @@ public class Cliente {
         this.cpf=cpf;
         this.endereco=endereco;
         this.email=email;
+    }
+
+    public Cliente() {
+
     }
 
     public String getNome() {
@@ -51,5 +61,8 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email=email;
+    }
+
+    public void setEmpresa(Empresa empresa) {
     }
 }

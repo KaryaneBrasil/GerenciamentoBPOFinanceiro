@@ -1,16 +1,19 @@
 package org.example.model.domain;
 
+import javax.persistence.*;
 import java.util.Date;
 
-public class Caixa {
+@Entity
+@DiscriminatorValue("FECHAMENTO_CAIXA")
+public class Caixa extends Envio {
+    private Long id;
     private Date dataFechamento;
     private String responsavelFechamento;
     private String relatorioFechamento;
     private String observacoes;
-    private Empresa empresa;
-    private Long id;
 
-    public Caixa() {
+
+    public Caixa(Date dataFechamento, String responsavelCaixa, String observacaoCaixa, TipoEnvio fechamentoCaixa) {
     }
 
     public Caixa(Date dataFechamento, String responsavelFechamento, String relatorioFechamento, String observacoes) {
@@ -18,6 +21,10 @@ public class Caixa {
         this.responsavelFechamento=responsavelFechamento;
         this.relatorioFechamento=relatorioFechamento;
         this.observacoes=observacoes;
+    }
+
+    public Caixa() {
+
     }
 
     public Date getDataFechamento() {

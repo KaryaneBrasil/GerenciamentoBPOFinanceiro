@@ -1,57 +1,47 @@
 package org.example;
 
+import org.example.model.domain.Cliente;
 import org.example.model.domain.Documento;
+import org.example.model.domain.Empresa;
+import org.example.model.domain.Envio;
+import org.example.model.service.ClienteService;
+import org.example.model.service.DocumentoService;
+import org.example.model.service.EmpresaService;
+import org.example.model.service.EnvioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-public class DocumentoLoader {
+@Component
+public class DocumentoLoader implements CommandLineRunner {
 
-    public List<Documento> loadDocumentosFromFile(String filePath) {
-        List<Documento> documentos=new ArrayList<>();
+    private final EmpresaService empresaService;
+    private final ClienteService clienteService;
+    private final EnvioService envioService;
+    private final DocumentoService documentoService;
 
-        try (BufferedReader reader=new BufferedReader(new FileReader("files/documento.txt"))) {
-            String line=reader.readLine();
-
-            while (line != null) {
-                String[] fields=line.split(";");
-                Documento documento=createDocumentoFromFields(fields);
-                documentos.add(documento);
-                line=reader.readLine();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return documentos;
+    @Autowired
+    public DocumentoLoader(EmpresaService empresaService, ClienteService clienteService,
+                           EnvioService envioService, DocumentoService documentoService) {
+        this.empresaService = empresaService;
+        this.clienteService = clienteService;
+        this.envioService = envioService;
+        this.documentoService = documentoService;
     }
 
-    private Documento createDocumentoFromFields(String[] fields) {
-        try {
-            if (fields.length < 4) {
-                throw new IllegalArgumentException("Número insuficiente de campos para criar um Documento.");
-            }
+    @Override
+    public void run(String... args) throws Exception {
 
-            return new Documento(fields[0], fields[1], parseDate(fields[2]), fields[3]);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+        Empresa empresa = empresaService.obterListaEmpresas().get(0);
+        Cliente cliente = clienteService.obterListaClientes().get(0);
+        Envio envio = envioService.obterListaEnvios().get(0);
 
-    private Date parseDate(String dateString) {
-        try {
-            return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
+        Documento documento = new Documento("Tipo Documento", "Arquivo Documento", new Date(), "Observação Documento");
+        documento.setCliente(cliente);
+        documento.setEmpresa(empresa);
+        documento.setEnvio(envio);
+        documentoService.incluirDocumento(documento);
     }
 }

@@ -1,16 +1,20 @@
 package org.example.model.domain;
 
+import javax.persistence.*;
 import java.util.Date;
 
-public class Cofre {
+@Entity
+@DiscriminatorValue("FECHAMENTO_COFRE")
+public class Cofre extends Envio{
+
+    private Long id;
     private Date dataFechamento;
     private String responsavelFechamento;
     private String relatorioFechamento;
     private String observacoes;
-    private Empresa empresa;
-    private Long id;
 
-    public Cofre() {
+
+    public Cofre(Date dataFechamento, String responsavelCofre, String observacaoCofre, TipoEnvio fechamentoCofre) {
     }
 
     public Cofre(Date dataFechamento, String responsavelFechamento, String relatorioFechamento, String observacoes) {
@@ -18,6 +22,10 @@ public class Cofre {
         this.responsavelFechamento=responsavelFechamento;
         this.relatorioFechamento=relatorioFechamento;
         this.observacoes=observacoes;
+    }
+
+    public Cofre() {
+
     }
 
     public Date getDataFechamento() {

@@ -1,69 +1,39 @@
 package org.example;
 
+import org.example.model.domain.Cliente;
+import org.example.model.domain.Empresa;
 import org.example.model.domain.Envio;
+import org.example.model.service.ClienteService;
+import org.example.model.service.EmpresaService;
+import org.example.model.service.EnvioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-public class EnvioLoader {
+@Component
+public class EnvioLoader implements CommandLineRunner {
 
-    public List<Envio> loadEnviosFromFile(String filePath) {
-        List<Envio> envios=new ArrayList<>();
+    private final EmpresaService empresaService;
+    private final ClienteService clienteService;
+    private final EnvioService envioService;
 
-        try (BufferedReader reader=new BufferedReader(new FileReader("files/envio.txt"))) {
-            String line=reader.readLine();
-
-            while (line != null) {
-                String[] fields=line.split(";");
-                Envio envio=createEnvioFromFields(fields);
-                envios.add(envio);
-                line=reader.readLine();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return envios;
+    @Autowired
+    public EnvioLoader(EmpresaService empresaService, ClienteService clienteService, EnvioService envioService) {
+        this.empresaService = empresaService;
+        this.clienteService = clienteService;
+        this.envioService = envioService;
     }
 
-    private Envio createEnvioFromFields(String[] fields) {
-        try {
-            if (fields.length < 4) {
-                throw new IllegalArgumentException("Número insuficiente de campos para criar um Envio.");
-            }
+    @Override
+    public void run(String... args) throws Exception {
+        Empresa empresa = empresaService.obterListaEmpresas().get(0);
+        Cliente cliente = clienteService.obterListaClientes().get(0);
 
-            Envio.TipoEnvio tipoEnvio=parseTipoEnvio(fields[3]);
-            return new Envio(parseDate(fields[0]), fields[1], fields[2], tipoEnvio);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    private Date parseDate(String dateString) {
-        try {
-            return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private Envio.TipoEnvio parseTipoEnvio(String tipoEnvioString) {
-        try {
-            return Envio.TipoEnvio.valueOf(tipoEnvioString);
-        } catch (IllegalArgumentException e) {
-            System.err.println("TipoEnvio inválido: " + tipoEnvioString);
-            return Envio.TipoEnvio.CONTAS_A_PAGAR;
-        }
-
+        Envio envio = new Envio(new Date(), "Responsável Envio", "Observação Envio", Envio.TipoEnvio.FECHAMENTO_CAIXA);
+        envio.setCliente(cliente);
+        envio.setEmpresa(empresa);
+        envioService.incluirEnvio(envio);
     }
 }

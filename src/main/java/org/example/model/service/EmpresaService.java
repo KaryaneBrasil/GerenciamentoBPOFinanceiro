@@ -1,21 +1,40 @@
 package org.example.model.service;
 
 import org.example.model.domain.Empresa;
+import org.example.model.repository.EmpresaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class EmpresaService {
-    private static final Map<String, Empresa> empresasMap=new HashMap<>();
+
+    private final EmpresaRepository empresaRepository;
+
+    @Autowired
+    public EmpresaService(EmpresaRepository empresaRepository) {
+        this.empresaRepository = empresaRepository;
+    }
 
     public void incluirEmpresa(Empresa empresa) {
-        empresasMap.put(empresa.getCnpj(), empresa);
+        empresaRepository.save(empresa);
     }
 
     public List<Empresa> obterListaEmpresas() {
-        return new ArrayList<>(empresasMap.values());
+        return (List<Empresa>) empresaRepository.findAll();
+    }
+
+    public Optional<Empresa> obterEmpresaPorId(Long id) {
+        return empresaRepository.findById(id);
+    }
+
+    public void atualizarEmpresa(Empresa empresa) {
+        empresaRepository.save(empresa);
+    }
+
+    public void excluirEmpresa(Long id) {
+        empresaRepository.deleteById(id);
     }
 }

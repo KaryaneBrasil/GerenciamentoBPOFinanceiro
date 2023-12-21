@@ -1,14 +1,18 @@
 package org.example.model.domain;
 
+import javax.persistence.*;
 import java.util.Date;
 
-public class Documento {
+@Entity
+@DiscriminatorValue("DOCUMENTO")
+public class Documento extends Envio{
+
+    private Long id;
     private String tipoDocumento;
     private String arquivo;
     private Date dataEnvio;
     private String observacoes;
-    private Empresa empresa;
-    private Long id;
+
 
     public Documento() {
     }
@@ -58,5 +62,8 @@ public class Documento {
 
     public void setId(Long id) {
         this.id=id;
+    }
+
+    public void setEnvio(Envio envio) {
     }
 }

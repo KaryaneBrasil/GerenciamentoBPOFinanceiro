@@ -1,18 +1,24 @@
 package org.example.model.domain;
 
+import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
+@Entity
 public class Empresa {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String razaoSocial;
     private String nomeFantasia;
     private String sigla;
     private String cnpj;
     private String endereco;
     private String email;
+    @OneToMany(mappedBy = "empresa")
     private List<Cliente> clientes;
-    private List<Envio> enviosCaixa;
-    private List<Envio> enviosCofre;
-    private List<Envio> enviosDocumentos;
+
 
     public Empresa() {
     }
@@ -72,5 +78,17 @@ public class Empresa {
 
     public void setEmail(String email) {
         this.email=email;
+    }
+
+
+    @OneToMany(mappedBy = "empresa")
+    private Collection<Envio> envio;
+
+    public Collection<Envio> getEnvio() {
+        return envio;
+    }
+
+    public void setEnvio(Collection<Envio> envio) {
+        this.envio=envio;
     }
 }

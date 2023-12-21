@@ -1,41 +1,32 @@
 package org.example;
 
 import org.example.model.domain.Cliente;
+import org.example.model.domain.Empresa;
+import org.example.model.service.ClienteService;
+import org.example.model.service.EmpresaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+@Component
+public class ClienteLoader implements CommandLineRunner {
 
-public class ClienteLoader {
+    private final EmpresaService empresaService;
+    private final ClienteService clienteService;
 
-    public List<Cliente> loadClientesFromFile(String filePath) {
-        List<Cliente> clientes=new ArrayList<>();
-
-        try (BufferedReader reader=new BufferedReader(new FileReader("files/cliente.txt"))) {
-            String line=reader.readLine();
-
-            while (line != null) {
-                String[] fields=line.split(";");
-                Cliente cliente=createClienteFromFields(fields);
-                clientes.add(cliente);
-                line=reader.readLine();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return clientes;
+    @Autowired
+    public ClienteLoader(EmpresaService empresaService, ClienteService clienteService) {
+        this.empresaService = empresaService;
+        this.clienteService = clienteService;
     }
 
-    private Cliente createClienteFromFields(String[] fields) {
-        try {
-            return new Cliente(fields[0], fields[1], fields[2], fields[3]);
-        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
-            e.printStackTrace();
-            return null;
-        }
+    @Override
+    public void run(String... args) throws Exception {
+
+        Empresa empresa = empresaService.obterListaEmpresas().get(0);
+
+        Cliente cliente = new Cliente("Nome do Cliente", "CPF Cliente", "Endereço Cliente", "Email Cliente");
+        cliente.setEmpresa(empresa);
+        clienteService.incluirCliente(cliente);
     }
 }
