@@ -1,4 +1,4 @@
-package org.example.loader;
+package org.example;
 
 import org.example.model.domain.Documento;
 
@@ -12,33 +12,46 @@ import java.util.Date;
 import java.util.List;
 
 public class DocumentoLoader {
-    public static List<Documento> loadDocumentosFromFile(String filePath) {
-        List<Documento> documentos = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String linha;
-            while ((linha = br.readLine()) != null) {
-                String[] dados = linha.split(";");
-                Documento documento = new Documento();
+    public List<Documento> loadDocumentosFromFile(String filePath) {
+        List<Documento> documentos=new ArrayList<>();
 
+        try (BufferedReader reader=new BufferedReader(new FileReader("files/documento.txt"))) {
+            String line=reader.readLine();
 
-                documento.setTipoDocumento(dados[0]);
-                documento.setArquivo(dados[1]);
-                documento.setDataEnvio(parseDate(dados[2]));
-                documento.setObservacoes(dados[3]);
-
-
+            while (line != null) {
+                String[] fields=line.split(";");
+                Documento documento=createDocumentoFromFields(fields);
                 documentos.add(documento);
+                line=reader.readLine();
             }
-        } catch (IOException | ParseException e) {
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         return documentos;
     }
 
-    private static Date parseDate(String dateString) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  // Ajuste conforme o formato da sua data
-        return dateFormat.parse(dateString);
+    private Documento createDocumentoFromFields(String[] fields) {
+        try {
+            if (fields.length < 4) {
+                throw new IllegalArgumentException("Número insuficiente de campos para criar um Documento.");
+            }
+
+            return new Documento(fields[0], fields[1], parseDate(fields[2]), fields[3]);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private Date parseDate(String dateString) {
+        try {
+            return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

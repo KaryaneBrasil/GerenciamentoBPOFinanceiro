@@ -1,7 +1,4 @@
-package org.example.model;
-
-import org.example.model.Cliente;
-import org.example.model.Empresa;
+package org.example.model.domain;
 
 import java.util.Date;
 
@@ -12,15 +9,16 @@ public class Envio {
     private TipoEnvio tipoEnvio;
     private Empresa empresa;
     private Cliente cliente;
+    private Long id;
 
     public Envio() {
     }
 
     public Envio(Date data, String responsavel, String observacao, TipoEnvio tipoEnvio) {
-        this.data = data;
-        this.responsavel = responsavel;
-        this.observacao = observacao;
-        this.tipoEnvio = tipoEnvio;
+        this.data=data;
+        this.responsavel=responsavel;
+        this.observacao=observacao;
+        this.tipoEnvio=tipoEnvio;
     }
 
     public Date getData() {
@@ -53,6 +51,14 @@ public class Envio {
 
     public void setTipoEnvio(TipoEnvio tipoEnvio) {
         this.tipoEnvio=tipoEnvio;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id=id;
     }
 
 

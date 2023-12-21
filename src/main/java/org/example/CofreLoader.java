@@ -1,4 +1,4 @@
-package org.example.loader;
+package org.example;
 
 import org.example.model.domain.Cofre;
 
@@ -12,34 +12,47 @@ import java.util.Date;
 import java.util.List;
 
 public class CofreLoader {
-    public static List<Cofre> loadCofresFromFile(String filePath) {
-        List<Cofre> cofres = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String linha;
-            while ((linha = br.readLine()) != null) {
-                String[] dados = linha.split(";");
-                Cofre cofre = new Cofre();
+    public List<Cofre> loadCofresFromFile(String filePath) {
+        List<Cofre> cofres=new ArrayList<>();
 
+        try (BufferedReader reader=new BufferedReader(new FileReader("files/cofre.txt"))) {
+            String line=reader.readLine();
 
-                cofre.setDataFechamento(parseDate(dados[0]));
-                cofre.setResponsavelFechamento(dados[1]);
-                cofre.setRelatorioFechamento(dados[2]);
-                cofre.setObservacoes(dados[3]);
-
+            while (line != null) {
+                String[] fields=line.split(";");
+                Cofre cofre=createCofreFromFields(fields);
                 cofres.add(cofre);
+                line=reader.readLine();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
         }
 
         return cofres;
     }
 
-    private static Date parseDate(String dateString) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.parse(dateString);
+    private Cofre createCofreFromFields(String[] fields) {
+        try {
+            if (fields.length < 4) {
+                throw new IllegalArgumentException("Número insuficiente de campos para criar um Cofre.");
+            }
+
+            return new Cofre(parseDate(fields[0]), fields[1], fields[2], fields[3]);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    private Date parseDate(String dateString) {
+        try {
+            return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

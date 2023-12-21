@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.model.domain;
 
 import java.util.Date;
 
@@ -8,15 +8,16 @@ public class Cofre {
     private String relatorioFechamento;
     private String observacoes;
     private Empresa empresa;
+    private Long id;
 
     public Cofre() {
     }
 
     public Cofre(Date dataFechamento, String responsavelFechamento, String relatorioFechamento, String observacoes) {
-        this.dataFechamento = dataFechamento;
-        this.responsavelFechamento = responsavelFechamento;
-        this.relatorioFechamento = relatorioFechamento;
-        this.observacoes = observacoes;
+        this.dataFechamento=dataFechamento;
+        this.responsavelFechamento=responsavelFechamento;
+        this.relatorioFechamento=relatorioFechamento;
+        this.observacoes=observacoes;
     }
 
     public Date getDataFechamento() {
@@ -24,7 +25,7 @@ public class Cofre {
     }
 
     public void setDataFechamento(Date dataFechamento) {
-        this.dataFechamento = dataFechamento;
+        this.dataFechamento=dataFechamento;
     }
 
     public String getResponsavelFechamento() {
@@ -32,7 +33,7 @@ public class Cofre {
     }
 
     public void setResponsavelFechamento(String responsavelFechamento) {
-        this.responsavelFechamento = responsavelFechamento;
+        this.responsavelFechamento=responsavelFechamento;
     }
 
     public String getRelatorioFechamento() {
@@ -40,7 +41,7 @@ public class Cofre {
     }
 
     public void setRelatorioFechamento(String relatorioFechamento) {
-        this.relatorioFechamento = relatorioFechamento;
+        this.relatorioFechamento=relatorioFechamento;
     }
 
     public String getObservacoes() {
@@ -48,6 +49,14 @@ public class Cofre {
     }
 
     public void setObservacoes(String observacoes) {
-        this.observacoes = observacoes;
+        this.observacoes=observacoes;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id=id;
     }
 }

@@ -1,4 +1,4 @@
-package org.example.loader;
+package org.example;
 
 import org.example.model.domain.Cliente;
 
@@ -9,26 +9,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteLoader {
-    public static List<Cliente> loadEmpresasFromFile(String filePath) {
-        List<Cliente> clientes = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String linha;
-            while ((linha = br.readLine()) != null) {
-                String[] dados = linha.split(";");
-                Cliente cliente = new Cliente();
+    public List<Cliente> loadClientesFromFile(String filePath) {
+        List<Cliente> clientes=new ArrayList<>();
 
-                cliente.setNome(dados[0]);
-                cliente.setCpf(dados[1]);
-                cliente.setEndereco(dados[2]);
-                cliente.setEmail(dados[3]);
+        try (BufferedReader reader=new BufferedReader(new FileReader("files/cliente.txt"))) {
+            String line=reader.readLine();
 
+            while (line != null) {
+                String[] fields=line.split(";");
+                Cliente cliente=createClienteFromFields(fields);
                 clientes.add(cliente);
+                line=reader.readLine();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return clientes;
+    }
+
+    private Cliente createClienteFromFields(String[] fields) {
+        try {
+            return new Cliente(fields[0], fields[1], fields[2], fields[3]);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

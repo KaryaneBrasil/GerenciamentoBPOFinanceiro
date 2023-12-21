@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.model.domain;
 
 import java.util.List;
 
@@ -18,12 +18,12 @@ public class Empresa {
     }
 
     public Empresa(String razaoSocial, String nomeFantasia, String sigla, String cnpj, String endereco, String email) {
-        this.razaoSocial = razaoSocial;
-        this.nomeFantasia = nomeFantasia;
-        this.sigla = sigla;
-        this.cnpj = cnpj;
-        this.endereco = endereco;
-        this.email = email;
+        this.razaoSocial=razaoSocial;
+        this.nomeFantasia=nomeFantasia;
+        this.sigla=sigla;
+        this.cnpj=cnpj;
+        this.endereco=endereco;
+        this.email=email;
     }
 
     public String getRazaoSocial() {
@@ -31,7 +31,7 @@ public class Empresa {
     }
 
     public void setRazaoSocial(String razaoSocial) {
-        this.razaoSocial = razaoSocial;
+        this.razaoSocial=razaoSocial;
     }
 
     public String getNomeFantasia() {
@@ -39,7 +39,7 @@ public class Empresa {
     }
 
     public void setNomeFantasia(String nomeFantasia) {
-        this.nomeFantasia = nomeFantasia;
+        this.nomeFantasia=nomeFantasia;
     }
 
     public String getSigla() {
@@ -47,7 +47,7 @@ public class Empresa {
     }
 
     public void setSigla(String sigla) {
-        this.sigla = sigla;
+        this.sigla=sigla;
     }
 
     public String getCnpj() {
@@ -55,7 +55,7 @@ public class Empresa {
     }
 
     public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
+        this.cnpj=cnpj;
     }
 
     public String getEndereco() {
@@ -63,7 +63,7 @@ public class Empresa {
     }
 
     public void setEndereco(String endereco) {
-        this.endereco = endereco;
+        this.endereco=endereco;
     }
 
     public String getEmail() {
@@ -71,6 +71,6 @@ public class Empresa {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email=email;
     }
 }

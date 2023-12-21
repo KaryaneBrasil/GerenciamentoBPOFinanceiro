@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.model.domain;
 
 import java.util.List;
 
@@ -15,10 +15,10 @@ public class Cliente {
     }
 
     public Cliente(String nome, String cpf, String endereco, String email) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.endereco = endereco;
-        this.email = email;
+        this.nome=nome;
+        this.cpf=cpf;
+        this.endereco=endereco;
+        this.email=email;
     }
 
     public String getNome() {
@@ -26,7 +26,7 @@ public class Cliente {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome=nome;
     }
 
     public String getCpf() {
@@ -34,7 +34,7 @@ public class Cliente {
     }
 
     public void setCpf(String cpf) {
-        this.cpf = cpf;
+        this.cpf=cpf;
     }
 
     public String getEndereco() {
@@ -42,7 +42,7 @@ public class Cliente {
     }
 
     public void setEndereco(String endereco) {
-        this.endereco = endereco;
+        this.endereco=endereco;
     }
 
     public String getEmail() {
@@ -50,6 +50,6 @@ public class Cliente {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email=email;
     }
 }

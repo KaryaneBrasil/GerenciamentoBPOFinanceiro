@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.model.domain;
 
 import java.util.Date;
 
@@ -8,15 +8,16 @@ public class Documento {
     private Date dataEnvio;
     private String observacoes;
     private Empresa empresa;
+    private Long id;
 
     public Documento() {
     }
 
     public Documento(String tipoDocumento, String arquivo, Date dataEnvio, String observacoes) {
-        this.tipoDocumento = tipoDocumento;
-        this.arquivo = arquivo;
-        this.dataEnvio = dataEnvio;
-        this.observacoes = observacoes;
+        this.tipoDocumento=tipoDocumento;
+        this.arquivo=arquivo;
+        this.dataEnvio=dataEnvio;
+        this.observacoes=observacoes;
     }
 
     public String getTipoDocumento() {
@@ -51,4 +52,11 @@ public class Documento {
         this.observacoes=observacoes;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id=id;
+    }
 }

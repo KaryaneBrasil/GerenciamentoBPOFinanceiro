@@ -1,4 +1,4 @@
-package org.example.loader;
+package org.example;
 
 import org.example.model.domain.Caixa;
 
@@ -12,34 +12,37 @@ import java.util.Date;
 import java.util.List;
 
 public class CaixaLoader {
-    public static List<Caixa> loadCaixasFromFile(String filePath) {
-        List<Caixa> caixas = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String linha;
-            while ((linha = br.readLine()) != null) {
-                String[] dados = linha.split(";");
-                Caixa caixa = new Caixa();
+    public List<Caixa> loadCaixasFromFile(String filePath) {
+        List<Caixa> caixas=new ArrayList<>();
 
+        try (BufferedReader reader=new BufferedReader(new FileReader("files/caixa.txt"))) {
+            String line=reader.readLine();
 
-                caixa.setDataFechamento(parseDate(dados[0]));
-                caixa.setResponsavelFechamento(dados[1]);
-                caixa.setRelatorioFechamento(dados[2]);
-                caixa.setObservacoes(dados[3]);
-
+            while (line != null) {
+                String[] fields=line.split(";");
+                Caixa caixa=createCaixaFromFields(fields);
                 caixas.add(caixa);
+                line=reader.readLine();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
         }
 
         return caixas;
     }
 
-    private static Date parseDate(String dateString) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.parse(dateString);
+    private Caixa createCaixaFromFields(String[] fields) {
+        return new Caixa(parseDate(fields[0]), fields[1], fields[2], fields[3]);
+    }
+
+    private Date parseDate(String dateString) {
+        try {
+            return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
