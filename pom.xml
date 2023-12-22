@@ -22,14 +22,14 @@
             <version>2.6.2</version>
         </dependency>
 
-        <!-- Spring Data JPA -->
+        <!-- Spring Boot Starter Data JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
             <version>2.6.2</version>
         </dependency>
 
-        <!-- Hibernate -->
+        <!-- Hibernate Core -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -40,12 +40,18 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.200</version> <!-- Versão atualizada do H2 Database -->
+            <version>1.4.200</version>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- Spring Boot Starter Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.6.2</version>
+        </dependency>
+
     </dependencies>
-
-
 
 
 </project>

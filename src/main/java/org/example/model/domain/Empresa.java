@@ -14,13 +14,16 @@ public class Empresa {
     private String nomeFantasia;
     private String sigla;
     private String cnpj;
-    private String endereco;
     private String email;
     @OneToMany(mappedBy = "empresa")
     private List<Cliente> clientes;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
+    private Endereco endereco;
 
 
-    public Empresa() {
+    public Empresa(Endereco endereco) {
+        this.endereco=endereco;
     }
 
     public Empresa(String razaoSocial, String nomeFantasia, String sigla, String cnpj, String endereco, String email) {
@@ -28,7 +31,6 @@ public class Empresa {
         this.nomeFantasia=nomeFantasia;
         this.sigla=sigla;
         this.cnpj=cnpj;
-        this.endereco=endereco;
         this.email=email;
     }
 
@@ -64,14 +66,6 @@ public class Empresa {
         this.cnpj=cnpj;
     }
 
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco=endereco;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -90,5 +84,8 @@ public class Empresa {
 
     public void setEnvio(Collection<Envio> envio) {
         this.envio=envio;
+    }
+
+    public void setEndereco(Endereco enderecoEmpresa) {
     }
 }
